@@ -7,5 +7,32 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+#load packages
+library(tidyverse)
+library(janitor)
+
+```
+
+
+1. Mean Density of Adults
+```{r}
+
+#read in adult data
+all_org <- read_csv("adult_other.csv")
+
+#filter for only the adult fish
+adults_clean <- all_org %>%
+  clean_names( case = "snake") %>%
+  filter(grepl('Adult', organism)) %>%
+  gather(place, amount, rarotonga_2009:ci, factor_key = T)
+
+#histograms
+ggplot(adults_clean, aes(x = amount, fill = organism)) +
+  geom_histogram()
+
+
+
+
 ```
 
