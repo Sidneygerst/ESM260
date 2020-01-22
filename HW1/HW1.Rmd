@@ -24,14 +24,21 @@ all_org <- read_csv("adult_other.csv")
 #filter for only the adult fish
 adults_clean <- all_org %>%
   clean_names( case = "snake") %>%
-  filter(grepl('Adult', organism)) %>%
-  gather(place, amount, rarotonga_2009:ci, factor_key = T)
+  filter(grepl('Adult', organism)) 
 
 #histograms
-ggplot(adults_clean, aes(x = amount, fill = organism)) +
-  geom_histogram()
+raro_2009_plot <- ggplot(adults_clean, aes(x = organism, y = rarotonga_2009, fill = organism)) +
+  geom_col()+
+  geom_errorbar(aes(ymin=rarotonga_2009-ci, ymax=rarotonga_2009+ci))
 
+raro_2018_plot <- ggplot(adults_clean, aes(x = organism, y = rarotonga_2018, fill = organism))+
+  geom_col()
 
+ait_2009_plot <- ggplot(adults_clean, aes(x = organism, y = aitutaki_2009, fill = organism)) +
+  geom_col()
+
+ait_2018_plot <- ggplot(adults_clean, aes(x = organism, y = aitutaki_2018, fill = organism))+
+  geom_col()
 
 
 ```
