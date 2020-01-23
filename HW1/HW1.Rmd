@@ -15,8 +15,10 @@ library(janitor)
 ```
 
 
-1. Mean Density of Adults
-```{r echo = F}
+####1. Mean Density of Adults
+
+
+```{r echo = F, message=F}
 
 #read in adult data
 all_org <- read_csv("adult_other.csv")
@@ -36,7 +38,8 @@ fish_plot <- ggplot(adults_clean,
   facet_wrap(~organism, scales = "free_y") +
   theme_classic() +
   theme(plot.title = element_text(hjust = 0.5))+
-  labs(title = "Adult Density Comparison")
+  labs(title = "Mean Number Adult Fish", y = "Density (number per 100 m^2 of reef)",
+       x = "Lagoon")
 
 fish_plot
 
@@ -44,4 +47,51 @@ fish_plot
 
 ```
 
+For the Coral Trout and Spotted Damselfish, there is a significant decrease from 2009 to 2018 in both Aitutaki and Rarotonga. There is no significant difference in Surgeonfish from Aitutaki from 2009 to 2018, but there is in Rarotonga. The only instance where 2018 was significantly greater than 2009 in both Aitutaki and Rarotonga is with Yellow Dameslfish. 
+
+####2. Young Fish Density
+
+
+```{r echo = F, message=F}
+
+#read in young fish data
+young_fish <- read_csv("young_fish.csv")
+
+#convert year to numeric
+young <- young_fish %>%
+  transform(year = as.character(year))
+
+#plot it
+young_plot <- ggplot(young, 
+                       aes(fill = year, x = place, y = density)) +
+  geom_bar(position = "dodge", stat = "identity", color = "black") +
+  geom_errorbar(aes(ymin = density, ymax = density + ci), 
+                width=.8, position=position_dodge(.9)) +
+  facet_wrap(~organism, scales = "free_y") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_fill_brewer("Year", palette="Set2") +
+  labs(title = "Mean Number of Newly Recuited (young) Fish", 
+       y = "Density (number per 1 m^2 of reef)",
+       x = "Lagoon")
+
+young_plot
+
+
+
+```
+
+Coral Trout recruits were the only young fish with a significant decrease from 2009 to 2018 in both Aitutaki and Rarotonga. The Spotted Damselfish did not show significant change in Aitutaki but did in Rarotonga. Surgeonfish did not show significant change in Aitutaki, but did in Rarotonga from 2009 to 2018. The Yellow Damselfish was the only fish to significantly increase from 2009 to 2018 in both Aitutaki and Rarotonga. 
+
+####3. Microhabitat
+
+```{r echo = F, message=F}
+
+#read in all organisms
+organisms <- read_csv("all_organsims.csv")
+
+
+
+
+```
 
