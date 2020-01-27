@@ -1,17 +1,17 @@
-organism,place,year,density,microhabitat,ci
-Surgeonfish,Rarotonga,2009,19.5,Fine-branching Coral,10
-Surgeonfish,Rarotonga,2018,33,Fine-branching Coral,10
-Surgeonfish,Aitutaki,2009,27,Fine-branching Coral,10
-Surgeonfish,Aitutaki,2018,25.5,Fine-branching Coral,10
-Coral Trout,Rarotonga,2009,10.5,Corase-branching Coral,2.5
-Coral Trout,Rarotonga,2018,1.5,Corase-branching Coral,2.5
-Coral Trout,Aitutaki,2009,10.5,Corase-branching Coral,2.5
-Coral Trout,Aitutaki,2018,7.5,Corase-branching Coral,2.5
-Spotted Damselfish,Rarotonga,2009,15,SeaAnemones,5
-Spotted Damselfish,Rarotonga,2018,10,SeaAnemones,5
-Spotted Damselfish,Aitutaki,2009,10,SeaAnemones,5
-Spotted Damselfish,Aitutaki,2018,8.5,SeaAnemones,5
-Yellow Damselfish,Rarotonga,2009,23.1,Mounding Coral,4
-Yellow Damselfish,Rarotonga,2018,47.3,Mounding Coral,4
-Yellow Damselfish,Aitutaki,2009,11,Mounding Coral,4
-Yellow Damselfish,Aitutaki,2018,20.9,Mounding Coral,4
+organism,place,year,density_1m,microhabitat,ci,microhabitat_100m,,,
+Surgeonfish,Rarotonga,2009,19.5,Fine-branching Coral,10,2.2,,,
+Surgeonfish,Rarotonga,2018,33,Fine-branching Coral,10,0.3,,,
+Surgeonfish,Aitutaki,2009,27,Fine-branching Coral,10,2.5,,,
+Surgeonfish,Aitutaki,2018,25.5,Fine-branching Coral,10,3.2,,,
+Coral Trout,Rarotonga,2009,10.5,Corase-branching Coral,2.5,2.8,,,
+Coral Trout,Rarotonga,2018,1.5,Corase-branching Coral,2.5,0.7,,,
+Coral Trout,Aitutaki,2009,10.5,Corase-branching Coral,2.5,3.2,,,
+Coral Trout,Aitutaki,2018,7.5,Corase-branching Coral,2.5,2.4,,,
+Spotted Damselfish,Rarotonga,2009,15,SeaAnemones,5,1.0,,,
+Spotted Damselfish,Rarotonga,2018,10,SeaAnemones,5,0.5,,,
+Spotted Damselfish,Aitutaki,2009,10,SeaAnemones,5,1.8,,,
+Spotted Damselfish,Aitutaki,2018,8.5,SeaAnemones,5,0.9,,,
+Yellow Damselfish,Rarotonga,2009,23.1,Mounding Coral,4,19.5,,,
+Yellow Damselfish,Rarotonga,2018,47.3,Mounding Coral,4,18,,,
+Yellow Damselfish,Aitutaki,2009,11,Mounding Coral,4,14.5,,,
+Yellow Damselfish,Aitutaki,2018,20.9,Mounding Coral,4,15.9,,,

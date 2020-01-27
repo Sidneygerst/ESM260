@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 #load packages
 library(tidyverse)
 library(janitor)
+library(ggpmisc)
+library(lme4)
 
 ```
 
@@ -28,7 +30,7 @@ adults_clean <- all_org %>%
   clean_names( case = "snake") %>%
   filter(grepl('Adult', organism)) %>%
   gather(place, Density, rarotonga_2009:aitutaki_2018)  %>%
-  separate(place, c("Place", "Year"), "_")
+  separate(place, c("Place", "Year"), "_") 
 
 fish_plot <- ggplot(adults_clean, 
                        aes(fill = Year, x = Place, y = Density)) +
@@ -52,20 +54,21 @@ For the Coral Trout and Spotted Damselfish, there is a significant decrease from
 ####2. Young Fish Density
 
 
-```{r echo = F, message=F}
+```{r echo = F, message=F, warning=F}
 
 #read in young fish data
 young_fish <- read_csv("young_fish.csv")
 
 #convert year to numeric
 young <- young_fish %>%
+  select(organism:ci) %>%
   transform(year = as.character(year))
 
 #plot it
 young_plot <- ggplot(young, 
-                       aes(fill = year, x = place, y = density)) +
+                       aes(fill = year, x = place, y = density_1m)) +
   geom_bar(position = "dodge", stat = "identity", color = "black") +
-  geom_errorbar(aes(ymin = density, ymax = density + ci), 
+  geom_errorbar(aes(ymin = density_1m, ymax = density_1m + ci), 
                 width=.8, position=position_dodge(.9)) +
   facet_wrap(~organism, scales = "free_y") +
   theme_classic() +
@@ -85,13 +88,69 @@ Coral Trout recruits were the only young fish with a significant decrease from 2
 
 ####3. Microhabitat
 
-```{r echo = F, message=F}
+```{r echo = F, message=F, warning=F}
 
 #read in all organisms
-organisms <- read_csv("all_organsims.csv")
+young_fish <- read_csv("young_fish.csv")
+adults_only <- read_csv("adults_only.csv")
+
+#filter adtuls
+adults_filtered<- adults_only %>%
+  select(organism:ci) %>%
+  na.omit() 
+
+#calc young density
+young_density <- young_fish %>%
+  select(organism:microhabitat_100m) %>%
+  filter()
+
+young_density$densityfish_100m <- young_density$density_1m/100
+young_density$density_youngfish_100m <- young_density$microhabitat_100m/young_density$densityfish_100m
+
+#add adult density to young_density df
+adult_young_merge <- cbind(young_density, adults_filtered[,4]) 
+
+#find rsquared 
+Rsqrd <- adult_young_merge %>% 
+  group_by(organism ) %>% 
+  summarize(R2 = summary(lm(density_youngfish_100m ~ density))$r.squared)
+
+Rsqrd <- mutate(Rsqrd, x = 10.5, y = 100, Label = paste("R^2=", round(R2, 4)))
+#[1] 0.48485195 0.47465074 0.06460801 0.62243309
+
+
+#plot it
+all_fish_plot <- ggplot(adult_young_merge, 
+                       aes(
+                           x = density_youngfish_100m, 
+                           y = density)) +
+  geom_smooth(method=lm, se = F)+
+  geom_text(mapping = aes(x, y, label = Label), data = Rsqrd)+
+  geom_point(size = 4, aes(
+             color = place, 
+              shape = factor(year))) +
+  facet_wrap(~organism, scale = "free") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_color_brewer("Place", palette="Set1") +
+  labs(title = "Adult and Young Density per 100m^2 of Habitat",
+       x = "Young Recruit",
+       y = "Adult",
+       color = "Place",
+       shape = "Year")
+
+all_fish_plot
 
 
 
+```
+
+The Spotted Damselfish is the most correlated between young and adults of the four fish types, and the Surgeonfish is the least. 
+
+
+#### 4. Adults and Microhabitat
+
+```{r echo = F, message=F, error=F}
 
 ```
 
