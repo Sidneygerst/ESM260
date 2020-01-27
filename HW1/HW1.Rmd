@@ -105,7 +105,7 @@ young_density <- young_fish %>%
   filter()
 
 young_density$densityfish_100m <- young_density$density_1m/100
-young_density$density_youngfish_100m <- young_density$microhabitat_100m/young_density$densityfish_100m
+young_density$density_youngfish_100m <- young_density$microhabitat_100m/young_density$densityfish_100m #unnecessary step
 young_density$recruit_density <- young_density$density_1m * young_density$microhabitat_100m
 
 #add adult density to young_density df
@@ -153,5 +153,39 @@ The Spotted Damselfish is the most correlated between young and adults of the fo
 
 ```{r echo = F, message=F, error=F}
 
+#regression of adults and microhabitat
+adultr <- adult_young_merge %>% 
+  group_by(organism ) %>% 
+  summarize(R2 = summary(lm(density ~ microhabitat_100m))$r.squared)
+
+adultr <- mutate(adultr, x = 1.5, y = 50, Label = paste("R^2=", round(R2, 4)))
+
+#plot
+adult_micro_plot <- ggplot(adult_young_merge, 
+                       aes(
+                           x = microhabitat_100m, 
+                           y = density)) +
+  geom_smooth(method=lm, se = F)+
+  geom_text(mapping = aes(x, y, label = Label), data = adultr)+
+  geom_point(size = 4, aes(
+             color = place, 
+              shape = factor(year))) +
+  facet_wrap(~organism, scale = "free") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_color_brewer("Place", palette="Set3") +
+  labs(title = "Adult and the Microhabitat used by their Young",
+       x = "Microhabitat",
+       y = "Adult",
+       color = "Place",
+       shape = "Year")
+
+adult_micro_plot
+
+
+
 ```
 
+The Yellow Dameslfish is the most correlated. 
+
+#### 5. Lagoons
