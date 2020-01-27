@@ -106,6 +106,7 @@ young_density <- young_fish %>%
 
 young_density$densityfish_100m <- young_density$density_1m/100
 young_density$density_youngfish_100m <- young_density$microhabitat_100m/young_density$densityfish_100m
+young_density$recruit_density <- young_density$density_1m * young_density$microhabitat_100m
 
 #add adult density to young_density df
 adult_young_merge <- cbind(young_density, adults_filtered[,4]) 
@@ -113,16 +114,16 @@ adult_young_merge <- cbind(young_density, adults_filtered[,4])
 #find rsquared 
 Rsqrd <- adult_young_merge %>% 
   group_by(organism ) %>% 
-  summarize(R2 = summary(lm(density_youngfish_100m ~ density))$r.squared)
+  summarize(R2 = summary(lm(recruit_density ~ density))$r.squared)
 
-Rsqrd <- mutate(Rsqrd, x = 10.5, y = 100, Label = paste("R^2=", round(R2, 4)))
+Rsqrd <- mutate(Rsqrd, x = 16, y = 100, Label = paste("R^2=", round(R2, 4)))
 #[1] 0.48485195 0.47465074 0.06460801 0.62243309
 
 
 #plot it
 all_fish_plot <- ggplot(adult_young_merge, 
                        aes(
-                           x = density_youngfish_100m, 
+                           x = recruit_density, 
                            y = density)) +
   geom_smooth(method=lm, se = F)+
   geom_text(mapping = aes(x, y, label = Label), data = Rsqrd)+
