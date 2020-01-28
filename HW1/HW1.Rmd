@@ -97,15 +97,15 @@ adults_only <- read_csv("adults_only.csv")
 #filter adtuls
 adults_filtered<- adults_only %>%
   select(organism:ci) %>%
-  na.omit() 
+  na.omit() %>%
+  rename(adult_density = density)
 
 #calc young density
 young_density <- young_fish %>%
   select(organism:microhabitat_100m) %>%
-  filter()
+  filter() %>%
+  transform(year = as.character(year))
 
-young_density$densityfish_100m <- young_density$density_1m/100
-young_density$density_youngfish_100m <- young_density$microhabitat_100m/young_density$densityfish_100m #unnecessary step
 young_density$recruit_density <- young_density$density_1m * young_density$microhabitat_100m
 
 #add adult density to young_density df
@@ -114,19 +114,17 @@ adult_young_merge <- cbind(young_density, adults_filtered[,4])
 #find rsquared 
 Rsqrd <- adult_young_merge %>% 
   group_by(organism ) %>% 
-  summarize(R2 = summary(lm(recruit_density ~ density))$r.squared)
+  summarize(R2 = summary(lm(recruit_density ~ adult_density))$r.squared)
 
 Rsqrd <- mutate(Rsqrd, x = 16, y = 100, Label = paste("R^2=", round(R2, 4)))
-#[1] 0.48485195 0.47465074 0.06460801 0.62243309
-
 
 #plot it
 all_fish_plot <- ggplot(adult_young_merge, 
                        aes(
                            x = recruit_density, 
-                           y = density)) +
+                           y = adult_density)) +
   geom_smooth(method=lm, se = F)+
-  geom_text(mapping = aes(x, y, label = Label), data = Rsqrd)+
+  #geom_text(mapping = aes(x, y, label = Label), data = Rsqrd)+
   geom_point(size = 4, aes(
              color = place, 
               shape = factor(year))) +
@@ -146,7 +144,7 @@ all_fish_plot
 
 ```
 
-The Spotted Damselfish is the most correlated between young and adults of the four fish types, and the Surgeonfish is the least. 
+The Spotted Damselfish is the second most correlated between young and adults of the four fish types (R^2= 0.94), and the Surgeonfish is the most (R^2= 0.9675). Coral Trout is also very correlated (R^2= 0.8958), and Yellow Dameselfish is least (R^2= 0.4017). 
 
 
 #### 4. Adults and Microhabitat
@@ -156,7 +154,7 @@ The Spotted Damselfish is the most correlated between young and adults of the fo
 #regression of adults and microhabitat
 adultr <- adult_young_merge %>% 
   group_by(organism ) %>% 
-  summarize(R2 = summary(lm(density ~ microhabitat_100m))$r.squared)
+  summarize(R2 = summary(lm(adult_density ~ microhabitat_100m))$r.squared)
 
 adultr <- mutate(adultr, x = 1.5, y = 50, Label = paste("R^2=", round(R2, 4)))
 
@@ -164,9 +162,9 @@ adultr <- mutate(adultr, x = 1.5, y = 50, Label = paste("R^2=", round(R2, 4)))
 adult_micro_plot <- ggplot(adult_young_merge, 
                        aes(
                            x = microhabitat_100m, 
-                           y = density)) +
+                           y = adult_density)) +
   geom_smooth(method=lm, se = F)+
-  geom_text(mapping = aes(x, y, label = Label), data = adultr)+
+  #geom_text(mapping = aes(x, y, label = Label), data = adultr)+
   geom_point(size = 4, aes(
              color = place, 
               shape = factor(year))) +
@@ -186,6 +184,41 @@ adult_micro_plot
 
 ```
 
-The Yellow Dameslfish is the most correlated. 
+The Yellow Dameslfish is the least correlated (R^2= 1e-04).
+Coral Trout is second to least correlated (R^2= 0.7761).
+Spotted Dameselfish and Surgeonfish are very correlated (R^2= 0.9482, R^2= 0.9646)
 
-#### 5. Lagoons
+#### 5. Adults and Microhabitat Density
+
+```{r message=F, echo=F, error=F, warning=F}
+
+#find density of adults / microhabitat
+adult_young_merge$adult_habitat <- adult_young_merge$adult_density/adult_young_merge$microhabitat_100m
+
+
+#plot it
+adult_habitat_plot <- ggplot(adult_young_merge, 
+                       aes(fill = year, x = place, y = adult_habitat)) +
+  geom_bar(position = "dodge", stat = "identity", color = "black") +
+  facet_wrap(~organism, scales = "free_y") +
+  theme_classic() +
+  scale_fill_brewer("Year", palette="Accent") +
+  theme(plot.title = element_text(hjust = 0.5))+
+  labs(title = "Adults per Microhabitat", y = "Adult Density (number per 100 m^2 of reef)",
+       x = "Lagoon")
+
+adult_habitat_plot
+
+
+
+```
+
+#### 6. Compare each fish 
+
+```{r echo=F, message=F, include=F, warning=F}
+
+
+
+
+```
+
