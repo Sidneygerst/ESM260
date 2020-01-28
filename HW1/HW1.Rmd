@@ -2,7 +2,9 @@
 title: "Homework 1"
 author: "Sidney Gerst"
 date: "1/21/2020"
-output: html_document
+output:
+  word_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -166,12 +168,12 @@ adult_micro_plot <- ggplot(adult_young_merge,
   geom_smooth(method=lm, se = F)+
   #geom_text(mapping = aes(x, y, label = Label), data = adultr)+
   geom_point(size = 4, aes(
-             color = place, 
+             color = place , 
               shape = factor(year))) +
   facet_wrap(~organism, scale = "free") +
   theme_classic() +
   theme(plot.title = element_text(hjust = 0.5))+
-  scale_color_brewer("Place", palette="Set3") +
+  scale_color_brewer("Place", palette="Dark2") +
   labs(title = "Adult and the Microhabitat used by their Young",
        x = "Microhabitat",
        y = "Adult",
@@ -204,7 +206,7 @@ adult_habitat_plot <- ggplot(adult_young_merge,
   theme_classic() +
   scale_fill_brewer("Year", palette="Accent") +
   theme(plot.title = element_text(hjust = 0.5))+
-  labs(title = "Adults per Microhabitat", y = "Adult Density (number per 100 m^2 of reef)",
+  labs(title = "Adults per Microhabitat", y = "Adult Density (number per 100 m^2 of microhabitat)",
        x = "Lagoon")
 
 adult_habitat_plot
@@ -213,12 +215,200 @@ adult_habitat_plot
 
 ```
 
+Yellow Damselfish is the only fish that increased in both lagoons from 2009 to 2018 per Mounding Coral. Every other fish per their respective microhabitat (Coral Trout per Course-Branching Coral, Spotten Dameselfish per Sea Anenomoes, and Surgeonfish per Fine-branching Coral) decreased from 2009 to 2018. 
+
 #### 6. Compare each fish 
 
-```{r echo=F, message=F, include=F, warning=F}
+```{r message=F, echo=F, error=F, warning=F}
+
+#filter and plot by each fish pairs (6 total plots)
+
+surgeon <- adult_young_merge %>%
+  filter(organism == "Surgeonfish") %>%
+  rename(surgeon_density = adult_density)
+
+coral_trout <- adult_young_merge %>%
+  filter(organism == "Coral Trout") %>%
+  rename(coral_density = adult_density)
+
+yellow <- adult_young_merge %>%
+  filter(organism == "Yellow Damselfish") %>%
+  rename(yellow_density = adult_density)
+
+spotted <- adult_young_merge %>%
+  filter(organism == "Spotted Damselfish") %>%
+  rename(spotted_density = adult_density)
+
+#merge surgeon and coral
+surgeon_coral <- cbind(surgeon, coral_trout[,9, drop=FALSE])
+
+#find r2
+sc_r <- surgeon_coral %>%
+summarize(R2 = summary(lm(surgeon_density ~ coral_density))$r.squared)
+
+sc_r <- mutate(sc_r, x = 150, y = 150, Label = paste("R^2=", round(R2, 4)))
+
+#plot
+surgeon_coral_plot <- ggplot(surgeon_coral, aes(x = surgeon_density, y = coral_trout[,9])) +
+  geom_smooth(method = lm, se=F) +
+  geom_text(mapping = aes(x, y, label = Label), data = sc_r)+
+  geom_point(size = 4, aes(
+             color = place, 
+              shape = factor(year)))+
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_color_brewer("Place", palette="Set1") +
+  labs(title = "Surgeonfish and Coral Trout",
+       x = "Surgeonfish Density",
+       y = "Coral Trout Density",
+       color = "Place",
+       shape = "Year")
+
+surgeon_coral_plot
+
+#merge surgeon and spotted
+surgeon_spotted <- cbind(surgeon, spotted[,9, drop=FALSE])
+
+#find r2
+ss_r <- surgeon_spotted %>%
+summarize(R2 = summary(lm(surgeon_density ~ spotted_density))$r.squared)
+
+ss_r <- mutate(sc_r, x = 150, y = 750, Label = paste("R^2=", round(R2, 4)))
+
+#plot
+surgeon_spotted_plot <- ggplot(surgeon_spotted, aes(x = surgeon_density, y = spotted_density)) +
+  geom_smooth(method = lm, se=F) +
+  geom_text(mapping = aes(x, y, label = Label), data = ss_r)+
+  geom_point(size = 4, aes(color = place, 
+                          shape = factor(year)))+
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_color_brewer("Place", palette="Set1") +
+  labs(title = "Surgeonfish and Spotted Dameselfish",
+       x = "Surgeonfish Density",
+       y = "Spotted Dameselfish Density",
+       color = "Place",
+       shape = "Year")
+
+surgeon_spotted_plot
+
+#merge surgeon and yellow
+surgeon_yellow <- cbind(surgeon, yellow[,9, drop=FALSE])
+
+#find r2
+sy_r <- surgeon_yellow %>%
+summarize(R2 = summary(lm(surgeon_density ~ yellow_density))$r.squared)
+
+sy_r <- mutate(sc_r, x = 150, y = 90, Label = paste("R^2=", round(R2, 4)))
+
+#plot
+surgeon_yellow_plot <- ggplot(surgeon_yellow, aes(x = surgeon_density, y = yellow_density)) +
+  geom_smooth(method = lm, se=F) +
+  geom_text(mapping = aes(x, y, label = Label), data = sy_r)+
+  geom_point(size = 4, aes(color = place, 
+                          shape = factor(year)))+
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_color_brewer("Place", palette="Set1") +
+  labs(title = "Surgeonfish and Yellow Damselfish",
+       x = "Surgeonfish Density",
+       y = "Yellow Damselfish Density",
+       color = "Place",
+       shape = "Year")
+
+surgeon_yellow_plot
 
 
+#merge coral and spotted
+coral_spotted <- cbind(coral_trout, spotted[,9, drop=FALSE])
+
+#find r2
+cs_r <- coral_spotted %>%
+summarize(R2 = summary(lm(coral_density ~ spotted_density))$r.squared)
+
+cs_r <- mutate(sc_r, x = 50, y = 750, Label = paste("R^2=", round(R2, 4)))
+
+#plot
+coral_spotted_plot <- ggplot(coral_spotted, aes(x = coral_density, y = spotted_density)) +
+  geom_smooth(method = lm, se=F) +
+  geom_text(mapping = aes(x, y, label = Label), data = cs_r)+
+  geom_point(size = 4, aes(color = place, 
+                          shape = factor(year)))+
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_color_brewer("Place", palette="Set1") +
+  labs(title = "Coral Trout and Spotted Damselfish",
+       x = "Coral Trout Density",
+       y = "Spotted Damselfish Density",
+       color = "Place",
+       shape = "Year")
+
+coral_spotted_plot
+
+
+#merge coral and yellow
+coral_yellow <- cbind(coral_trout, yellow[,9, drop=FALSE])
+
+#find r2
+cy_r <- coral_yellow %>%
+summarize(R2 = summary(lm(coral_density ~ yellow_density))$r.squared)
+
+cy_r <- mutate(sc_r, x = 50, y = 90, Label = paste("R^2=", round(R2, 4)))
+
+#plot
+coral_yellow_plot <- ggplot(coral_yellow, aes(x = coral_density, y = yellow_density)) +
+  geom_smooth(method = lm, se=F) +
+  geom_text(mapping = aes(x, y, label = Label), data = cy_r)+
+  geom_point(size = 4, aes(color = place, 
+                          shape = factor(year)))+
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_color_brewer("Place", palette="Set1") +
+  labs(title = "Coral Trout and Yellow Damselfish",
+       x = "Coral Trout Density",
+       y = "Yellow Damselfish Density",
+       color = "Place",
+       shape = "Year")
+
+coral_yellow_plot
+
+#merge spotted and yellow
+spotted_yellow <- cbind(spotted, yellow[,9, drop=FALSE])
+
+#find r2
+sy_r <- spotted_yellow %>%
+summarize(R2 = summary(lm(spotted_density ~ yellow_density))$r.squared)
+
+sy_r <- mutate(sc_r, x = 750, y = 90, Label = paste("R^2=", round(R2, 4)))
+
+#plot
+spotted_yellow_plot <- ggplot(spotted_yellow, aes(x = spotted_density, y = yellow_density)) +
+  geom_smooth(method = lm, se=F) +
+  geom_text(mapping = aes(x, y, label = Label), data = sy_r)+
+  geom_point(size = 4, aes(color = place, 
+                          shape = factor(year)))+
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_color_brewer("Place", palette="Set1") +
+  labs(title = "Spotted Damselfish and Yellow Damselfish",
+       x = "Spotted Damselfish Density",
+       y = "Yellow Damselfish Density",
+       color = "Place",
+       shape = "Year")
+
+spotted_yellow_plot
 
 
 ```
 
+As Surgeonfish decrease in Rarotonga, Coral Trout decrease. As Surgeonfish increase in Aitutaki, Coral Trout decrease. The overal trend is postive, but isn't very strongly correlated.  
+
+As Surgeonfish decrease in Rarotonga, Spotted Damselfish decrease. As Surgeonfish increase in Aitutaki, Spotted Damselfish decrease. The overal trend is postive, but isn't very strongly correlated. 
+
+As Surgeonfish increased in Rarotonga, Yellow Damselfish decreased. As Surgeonfish increased, Yellow Damselfish increased in Aitutaki. Overall the trend is negative, but it isn't strongly correlated. 
+
+As Coral Trout decreased, Spotted Damselfish decreased in both Rarotonga and Aitutaki from 2009 to 2018. 
+
+From 2009 to 2018, Coral Trout decreased as Yellow Damselfish increased in Rarotonga and Aitutaki. 
+
+In both Rarotonga and Aitutaki, as Spotted Damselfish decreased, Yellow Damselfish increased from 2009 to 2018. 
