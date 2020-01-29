@@ -353,7 +353,7 @@ coral_yellow <- cbind(coral_trout, yellow[,9, drop=FALSE])
 cy_r <- coral_yellow %>%
 summarize(R2 = summary(lm(coral_density ~ yellow_density))$r.squared)
 
-cy_r <- mutate(sc_r, x = 50, y = 90, Label = paste("R^2=", round(R2, 4)))
+cy_r <- mutate(sc_r, x = 50, y = 90, Label = paste("R^2=", round(summary(lm1)$r.squared,4)))
 
 #plot
 coral_yellow_plot <- ggplot(coral_yellow, aes(x = coral_density, y = yellow_density)) +
