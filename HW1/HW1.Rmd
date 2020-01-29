@@ -13,8 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #load packages
 library(tidyverse)
 library(janitor)
-library(
-  ggpmisc)
+library(ggpmisc)
 library(lme4)
 
 ```
@@ -109,12 +108,8 @@ young_density <- young_fish %>%
   filter() %>%
   transform(year = as.character(year))
 
-<<<<<<< HEAD
-
 young_density$recruit_density <- (young_density$density_1m*young_density$microhabitat_100m)
-=======
-young_density$recruit_density <- young_density$density_1m * young_density$microhabitat_100m
->>>>>>> acb28b4845275008fa09c017c99d0667fc35544e
+
 
 #add adult density to young_density df
 adult_young_merge <- cbind(young_density, adults_filtered[,4]) 
@@ -179,11 +174,7 @@ adult_micro_plot <- ggplot(adult_young_merge,
   facet_wrap(~organism, scale = "free") +
   theme_classic() +
   theme(plot.title = element_text(hjust = 0.5))+
-<<<<<<< HEAD
   scale_color_brewer("Place", palette="Set2") +
-=======
-  scale_color_brewer("Place", palette="Dark2") +
->>>>>>> acb28b4845275008fa09c017c99d0667fc35544e
   labs(title = "Adult and the Microhabitat used by their Young",
        x = "Microhabitat",
        y = "Adult",
@@ -256,12 +247,12 @@ surgeon_coral <- cbind(surgeon, coral_trout[,9, drop=FALSE])
 sc_r <- surgeon_coral %>%
 summarize(R2 = summary(lm(surgeon_density ~ coral_density))$r.squared)
 
-sc_r <- mutate(sc_r, x = 150, y = 150, Label = paste("R^2=", round(R2, 4)))
+sc_r <- mutate(sc_r, x = 150, y = 150, Label = paste("R^2 == ", round(R2, 4)))
 
-#plot adlkjfa;sd
+#plot 
 surgeon_coral_plot <- ggplot(surgeon_coral, aes(x = surgeon_density, y = coral_trout[,9])) +
   geom_smooth(method = lm, se=F) +
-  geom_text(mapping = aes(x, y, label = Label), data = sc_r)+
+  geom_text(mapping = aes(x, y, label = Label), data = sc_r, parse=TRUE)+
   geom_point(size = 4, aes(
              color = place, 
               shape = factor(year)))+
@@ -283,12 +274,12 @@ surgeon_spotted <- cbind(surgeon, spotted[,9, drop=FALSE])
 ss_r <- surgeon_spotted %>%
 summarize(R2 = summary(lm(surgeon_density ~ spotted_density))$r.squared)
 
-ss_r <- mutate(sc_r, x = 150, y = 750, Label = paste("R^2=", round(R2, 4)))
+ss_r <- mutate(sc_r, x = 150, y = 750, Label = paste("R^2 ==", round(R2, 4)))
 
 #plot
 surgeon_spotted_plot <- ggplot(surgeon_spotted, aes(x = surgeon_density, y = spotted_density)) +
   geom_smooth(method = lm, se=F) +
-  geom_text(mapping = aes(x, y, label = Label), data = ss_r)+
+  geom_text(mapping = aes(x, y, label = Label), data = ss_r ,parse=TRUE)+
   geom_point(size = 4, aes(color = place, 
                           shape = factor(year)))+
   theme_classic() +
@@ -309,12 +300,12 @@ surgeon_yellow <- cbind(surgeon, yellow[,9, drop=FALSE])
 sy_r <- surgeon_yellow %>%
 summarize(R2 = summary(lm(surgeon_density ~ yellow_density))$r.squared)
 
-sy_r <- mutate(sc_r, x = 150, y = 90, Label = paste("R^2=", round(R2, 4)))
+sy_r <- mutate(sc_r, x = 150, y = 90, Label = paste("R^2 ==", round(R2, 4)))
 
 #plot
 surgeon_yellow_plot <- ggplot(surgeon_yellow, aes(x = surgeon_density, y = yellow_density)) +
   geom_smooth(method = lm, se=F) +
-  geom_text(mapping = aes(x, y, label = Label), data = sy_r)+
+  geom_text(mapping = aes(x, y, label = Label), data = sy_r, parse=TRUE)+
   geom_point(size = 4, aes(color = place, 
                           shape = factor(year)))+
   theme_classic() +
@@ -336,12 +327,12 @@ coral_spotted <- cbind(coral_trout, spotted[,9, drop=FALSE])
 cs_r <- coral_spotted %>%
 summarize(R2 = summary(lm(coral_density ~ spotted_density))$r.squared)
 
-cs_r <- mutate(sc_r, x = 50, y = 750, Label = paste("R^2=", round(R2, 4)))
+cs_r <- mutate(sc_r, x = 50, y = 750, Label = paste("R^2 ==", round(R2, 4)))
 
 #plot
 coral_spotted_plot <- ggplot(coral_spotted, aes(x = coral_density, y = spotted_density)) +
   geom_smooth(method = lm, se=F) +
-  geom_text(mapping = aes(x, y, label = Label), data = cs_r)+
+  geom_text(mapping = aes(x, y, label = Label), data = cs_r,parse=TRUE)+
   geom_point(size = 4, aes(color = place, 
                           shape = factor(year)))+
   theme_classic() +
@@ -363,12 +354,12 @@ coral_yellow <- cbind(coral_trout, yellow[,9, drop=FALSE])
 cy_r <- coral_yellow %>%
 summarize(R2 = summary(lm(coral_density ~ yellow_density))$r.squared)
 
-cy_r <- mutate(sc_r, x = 50, y = 90, Label = paste("R^2=", round(summary(lm1)$r.squared,4)))
+cy_r <- mutate(sc_r, x = 50, y = 90, Label = paste("R^2 ==", round(R2,4)))
 
 #plot
 coral_yellow_plot <- ggplot(coral_yellow, aes(x = coral_density, y = yellow_density)) +
   geom_smooth(method = lm, se=F) +
-  geom_text(mapping = aes(x, y, label = Label), data = cy_r)+
+  geom_text(mapping = aes(x, y, label = Label), data = cy_r, parse=TRUE)+
   geom_point(size = 4, aes(color = place, 
                           shape = factor(year)))+
   theme_classic() +
@@ -389,12 +380,12 @@ spotted_yellow <- cbind(spotted, yellow[,9, drop=FALSE])
 sy_r <- spotted_yellow %>%
 summarize(R2 = summary(lm(spotted_density ~ yellow_density))$r.squared)
 
-sy_r <- mutate(sc_r, x = 750, y = 90, Label = paste("R^2=", round(R2, 4)))
+sy_r <- mutate(sc_r, x = 750, y = 90, Label = paste("R^2 ==", round(R2, 4)))
 
 #plot
 spotted_yellow_plot <- ggplot(spotted_yellow, aes(x = spotted_density, y = yellow_density)) +
   geom_smooth(method = lm, se=F) +
-  geom_text(mapping = aes(x, y, label = Label), data = sy_r)+
+  geom_text(mapping = aes(x, y, label = Label), data = sy_r, parse=TRUE)+
   geom_point(size = 4, aes(color = place, 
                           shape = factor(year)))+
   theme_classic() +
@@ -421,52 +412,5 @@ As Coral Trout decreased, Spotted Damselfish decreased in both Rarotonga and Ait
 
 From 2009 to 2018, Coral Trout decreased as Yellow Damselfish increased in Rarotonga and Aitutaki. 
 
-<<<<<<< HEAD
-#### 5. Adults and Lagoons
-
-```{r}
-
-#clean adult young habitat df
-adult_young_habitat <- adult_young_merge %>%
-  rename(adult_density = density) %>%
-  transform(year = as.character(year))
-
-
-
-#find density of adults per habitat
-adult_young_habitat$adult_habitat_density <- adult_young_habitat$adult_density / adult_young_habitat$microhabitat_100m
-
-#plot it
-adult_habitat_plot <- ggplot(adult_young_habitat, 
-                       aes(fill = year, x = place, y = adult_habitat_density)) +
-  geom_bar(position = "dodge", stat = "identity", color = "black") +
-  facet_wrap(~organism, scales = "free_y") +
-  theme_classic() +
-  theme(plot.title = element_text(hjust = 0.5))+
-  scale_fill_brewer("Year", palette="Set3") +
-  labs(title = "Density of Adults per Microhabitat used by their Recruits", 
-       y = "Density (number per 100 m^2 of reef)",
-       x = "Lagoon")
-
-adult_habitat_plot
-
-
-
-
-```
-
-
-Talk about the trends
-
-#### 6. Fish Comparisons
-
-```{r}
-
-
-
-
-```
-
-=======
 In both Rarotonga and Aitutaki, as Spotted Damselfish decreased, Yellow Damselfish increased from 2009 to 2018. 
->>>>>>> acb28b4845275008fa09c017c99d0667fc35544e
+
