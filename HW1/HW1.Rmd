@@ -11,7 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 #load packages
 library(tidyverse)
 library(janitor)
-library(ggpmisc)
+library(
+  ggpmisc)
 library(lme4)
 
 ```
@@ -104,9 +105,8 @@ young_density <- young_fish %>%
   select(organism:microhabitat_100m) %>%
   filter()
 
-young_density$densityfish_100m <- young_density$density_1m/100
-young_density$density_youngfish_100m <- young_density$microhabitat_100m/young_density$densityfish_100m #unnecessary step
-young_density$recruit_density <- young_density$density_1m * young_density$microhabitat_100m
+
+young_density$recruit_density <- (young_density$density_1m*young_density$microhabitat_100m)
 
 #add adult density to young_density df
 adult_young_merge <- cbind(young_density, adults_filtered[,4]) 
@@ -126,7 +126,7 @@ all_fish_plot <- ggplot(adult_young_merge,
                            x = recruit_density, 
                            y = density)) +
   geom_smooth(method=lm, se = F)+
-  geom_text(mapping = aes(x, y, label = Label), data = Rsqrd)+
+  #geom_text(mapping = aes(x, y, label = Label), data = Rsqrd)+
   geom_point(size = 4, aes(
              color = place, 
               shape = factor(year))) +
@@ -158,7 +158,7 @@ adultr <- adult_young_merge %>%
   group_by(organism ) %>% 
   summarize(R2 = summary(lm(density ~ microhabitat_100m))$r.squared)
 
-adultr <- mutate(adultr, x = 1.5, y = 50, Label = paste("R^2=", round(R2, 4)))
+adultr <- mutate(adultr, x = 1.75, y = 50, Label = paste("R^2=", round(R2, 4)))
 
 #plot
 adult_micro_plot <- ggplot(adult_young_merge, 
@@ -166,14 +166,14 @@ adult_micro_plot <- ggplot(adult_young_merge,
                            x = microhabitat_100m, 
                            y = density)) +
   geom_smooth(method=lm, se = F)+
-  geom_text(mapping = aes(x, y, label = Label), data = adultr)+
+  #geom_text(mapping = aes(x, y, label = Label), data = adultr)+
   geom_point(size = 4, aes(
              color = place, 
               shape = factor(year))) +
   facet_wrap(~organism, scale = "free") +
   theme_classic() +
   theme(plot.title = element_text(hjust = 0.5))+
-  scale_color_brewer("Place", palette="Set3") +
+  scale_color_brewer("Place", palette="Set2") +
   labs(title = "Adult and the Microhabitat used by their Young",
        x = "Microhabitat",
        y = "Adult",
@@ -188,4 +188,48 @@ adult_micro_plot
 
 The Yellow Dameslfish is the most correlated. 
 
-#### 5. Lagoons
+#### 5. Adults and Lagoons
+
+```{r}
+
+#clean adult young habitat df
+adult_young_habitat <- adult_young_merge %>%
+  rename(adult_density = density) %>%
+  transform(year = as.character(year))
+
+
+
+#find density of adults per habitat
+adult_young_habitat$adult_habitat_density <- adult_young_habitat$adult_density / adult_young_habitat$microhabitat_100m
+
+#plot it
+adult_habitat_plot <- ggplot(adult_young_habitat, 
+                       aes(fill = year, x = place, y = adult_habitat_density)) +
+  geom_bar(position = "dodge", stat = "identity", color = "black") +
+  facet_wrap(~organism, scales = "free_y") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_fill_brewer("Year", palette="Set3") +
+  labs(title = "Density of Adults per Microhabitat used by their Recruits", 
+       y = "Density (number per 100 m^2 of reef)",
+       x = "Lagoon")
+
+adult_habitat_plot
+
+
+
+
+```
+
+
+Talk about the trends
+
+#### 6. Fish Comparisons
+
+```{r}
+
+
+
+
+```
+

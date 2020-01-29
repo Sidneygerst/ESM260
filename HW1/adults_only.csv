@@ -1,23 +1,17 @@
-organism,place,year,density,ci,,,,,,,,,,,,,,,
-Surgeonfish,Rarotonga,2009,250,32,,,,,,,,,,,,,,,
-Surgeonfish,Aitutaki,2018,360,32,,,,,,,,,,,,,,,
-Surgeonfish,Rarotonga,2009,20,32,,,,,,,,,,,,,,,
-Surgeonfish,Aitutaki,2018,390,32,,,,,,,,,,,,,,,
-Coral Trout,Rarotonga,2009,120,21,,,,,,,,,,,,,,,
-Coral Trout,Aitutaki,2018,170,21,,,,,,,,,,,,,,,
-Coral Trout,Rarotonga,2009,4,21,,,,,,,,,,,,,,,
-Coral Trout,Aitutaki,2018,40,21,,,,,,,,,,,,,,,
-Spotted Dameselfish,Rarotonga,2009,520,47,,,,,,,,,,,,,,,
-Spotted Dameselfish,Aitutaki,2018,910,47,,,,,,,,,,,,,,,
-Spotted Dameselfish,Rarotonga,2009,19,47,,,,,,,,,,,,,,,
-Spotted Dameselfish,Aitutaki,2018,257,47,,,,,,,,,,,,,,,
-Yellow Dameselfish,Rarotonga,2009,32,15,,,,,,,,,,,,,,,
-Yellow Dameselfish,Aitutaki,2018,36,15,,,,,,,,,,,,,,,
-Yellow Dameselfish,Rarotonga,2009,90,15,,,,,,,,,,,,,,,
-Yellow Dameselfish,Aitutaki,2018,80,15,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,
+organism,place,year,density,ci
+Surgeonfish,Rarotonga,2009,250,32
+Surgeonfish,Aitutaki,2018,20,32
+Surgeonfish,Rarotonga,2009,360,32
+Surgeonfish,Aitutaki,2018,390,32
+Coral Trout,Rarotonga,2009,120,21
+Coral Trout,Aitutaki,2018,4,21
+Coral Trout,Rarotonga,2009,170,21
+Coral Trout,Aitutaki,2018,40,21
+Spotted Dameselfish,Rarotonga,2009,520,47
+Spotted Dameselfish,Aitutaki,2018,19,47
+Spotted Dameselfish,Rarotonga,2009,910,47
+Spotted Dameselfish,Aitutaki,2018,257,47
+Yellow Dameselfish,Rarotonga,2009,32,15
+Yellow Dameselfish,Aitutaki,2018,90,15
+Yellow Dameselfish,Rarotonga,2009,36,15
+Yellow Dameselfish,Aitutaki,2018,80,15
