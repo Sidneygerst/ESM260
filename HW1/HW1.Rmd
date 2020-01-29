@@ -258,7 +258,7 @@ summarize(R2 = summary(lm(surgeon_density ~ coral_density))$r.squared)
 
 sc_r <- mutate(sc_r, x = 150, y = 150, Label = paste("R^2=", round(R2, 4)))
 
-#plot
+#plot adlkjfa;sd
 surgeon_coral_plot <- ggplot(surgeon_coral, aes(x = surgeon_density, y = coral_trout[,9])) +
   geom_smooth(method = lm, se=F) +
   geom_text(mapping = aes(x, y, label = Label), data = sc_r)+
