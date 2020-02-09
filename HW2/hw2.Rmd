@@ -1,0 +1,40 @@
+---
+title: "Homework 2"
+author: "Sidney Gerst"
+date: "February 9, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+####1. Alternative Hypothesis for non-fish 
+
+```{r}
+all_organisms <- read_csv("all_organsims.csv")
+
+nonfish <- all_organisms %>%
+  filter(grepl('Other', organism)) %>%
+  select(-microhabitat) %>%
+  transform(year = as.character(year))
+
+other_plot <- ggplot(nonfish, 
+                       aes(fill = year, x = place, y = density)) +
+  geom_bar(position = "dodge", stat = "identity", color = "black") +
+  geom_errorbar(aes(ymin = density, ymax = density + ci), 
+                width=.8, position=position_dodge(.9)) +
+  facet_wrap(~organism, scales = "free_y") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  labs(title = "Mean Number Non-fish", y = "Density (number per 100 m^2 of reef)",
+       x = "Lagoon")
+
+other_plot
+
+
+
+```
+
