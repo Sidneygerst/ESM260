@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-###1. Alternative Hypothesis for non-fish 
+### 1. Alternative Hypothesis for non-fish 
 
 ```{r echo = F, message=F, warning=F}
 all_organisms <- read_csv("all_organsims.csv")
@@ -28,6 +28,7 @@ other_plot <- ggplot(nonfish,
                 width=.8, position=position_dodge(.9)) +
   facet_wrap(~organism, scales = "free_y") +
   theme_classic() +
+  scale_fill_manual("Year", values = c("maroon1", "lightseagreen")) +
   theme(plot.title = element_text(hjust = 0.5))+
   labs(title = "Mean Number Non-fish", y = "Density (number per 100 m^2 of reef)",
        x = "Lagoon")
@@ -39,34 +40,37 @@ other_plot
 ```
 
 
-####Aglae
+#### Aglae
 
 (H1): Algae might have increased in both lagoons because coral might decrease due to agriculture production or increased climatic events such as cyclones coming into the area. 
+
 (H2): Algae might increase in one of the lagoons because coral will still be abundant in Aitutaki, especially Fine-Branching and Mounding corals. 
 
-####Coarse-Branching Corals
+#### Coarse-Branching Corals
 
 (H1): Coarse-Branching Corals might decrease due to the presence of algae. Algae tends to be a big competitor when space previously used by Coarse-Branching corals is open. Once algae is stable, it is hard for corals to make a come back. 
+
 (H2): Coarse-Branching Corals might decrease due to a decrease in young Coral Trout recruitment. Recruitment of young fish is vital to the growth of corals. They excrete ammonia that the corals use as a fertilizer. 
 
-####Fine-Branching Corals
+#### Fine-Branching Corals
 
 (H1): Fine-Branching Coral might decrease due to an increase in algae in Rarotogna
+
 (H2): A steady population of Surgeon recruitment might increase the amount of Fine-Branching Corals in Aitutaki
 
-####Mounding Coral
+#### Mounding Coral
 
 (H1): An unsignificant change in Yellow Damselfish might change a similar unsignificant change in Mounding Coral
 
 (H2): Mounding coral might not be effected by algae, and remain constant in both lagoons. 
 
-####Sea Anemones
+#### Sea Anemones
 
 (H1): Sea Anemones might have decreased significantly due to poor Spotted Dameselfish recruitment in Rarotonga and increased algae in Rarotonga
 
 (H2): Sea Anemones might have decreased significantly in Aitutaki due from Fine-Branching corals and Mounding corals increasing and out competing them. 
 
-###Alternative Hypotheses for Spotted Damselfish and Yellow Damselfish
+### Alternative Hypotheses for Spotted Damselfish and Yellow Damselfish
 
 ```{r echo = F, message=F, warning=F}
 
@@ -93,6 +97,46 @@ damselfish_plot
 
 ```
 
-####Spotted Damselfish
+#### Spotted Damselfish
 
-(H1): 
+(H1): Adult Spottel Damselfish might have significantly decreased due to poor young recruitment on sea anemones, their preferred microhabitat as young. Sea anemones have decreased significantly, so young recruits aren't able to find a microhabitat to settle on, consequently not growing to adults. 
+
+(H2): Even though Spotted Damselfish and Yellow Damselfish recruit onto different microhabitats, they might compete for the same resources as adults. Yellow Damselfish have significantly increased, and might have out competed the Spotted Damselfish in resources. 
+
+#### Yellow Damselfish
+
+(H1):Yellow Damselfish might have increased siginificantly due to positive young recruitment. Young Yellow Damselfish recruit onto Mounding Corals and both the young fish and corals increased in both lagoons. This bodes well for adult Yellow Damselfish. 
+
+
+### Alternative Hypothses for Surgeonfish
+
+```{r echo = F, message=F, warning=F}
+
+surgeon <- all_organisms %>%
+  filter(grepl( 'Surgeonfish', organism)) %>%
+  filter(grepl( 'Adult', organism)) %>%
+  select(-microhabitat) %>%
+  transform(year = as.character(year))
+
+surgeon_plot <- ggplot(surgeon, 
+                       aes(fill = year, x = place, y = density)) +
+  geom_bar(position = "dodge", stat = "identity", color = "black") +
+  geom_errorbar(aes(ymin = density, ymax = density + ci), 
+                width=.8, position=position_dodge(.9)) +
+  facet_wrap(~organism, scales = "free_y") +
+  theme_classic() +
+  scale_fill_brewer("Year", palette="Set1") +
+  theme(plot.title = element_text(hjust = 0.5))+
+  labs(title = "Mean Number Surgeonfish", y = "Density (number per 100 m^2 of reef)",
+       x = "Lagoon")
+
+surgeon_plot
+
+
+```
+
+#### Hypotheses
+
+(H1): Adult Surgeonfish may have increased in Aitutaki but decreased in Rarotonga due to the recruitment of young on their preferred microhabitat, Fine-Branching Corals. Fine-Branching corals displayed a similar pattern where they increased in Aitutaki and decreased in Rarotonga. 
+
+(H2): Adult Surgeonfish might have decreased in Rarotonga due to the increase in algae. Algae might have an effect on Adult Surgeonfish because that might not be their preferred food source even though they are herbavores.  
