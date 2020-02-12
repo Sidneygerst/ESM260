@@ -2,7 +2,9 @@
 title: "Homework 2"
 author: "Sidney Gerst"
 date: "February 9, 2020"
-output: html_document
+output:
+  word_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -106,6 +108,8 @@ damselfish_plot
 #### Yellow Damselfish
 
 (H1):Yellow Damselfish might have increased siginificantly due to positive young recruitment. Young Yellow Damselfish recruit onto Mounding Corals and both the young fish and corals increased in both lagoons. This bodes well for adult Yellow Damselfish. 
+
+(H2): Yellow Damselfish might also increase due to the decrease in Spotted Damselfish. They don't need to compete for resources with as many fish as they would if Spotted Damselfish remained at their 2009 values. 
 
 
 ### Alternative Hypothses for Surgeonfish
