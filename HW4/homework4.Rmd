@@ -156,3 +156,73 @@ speciesc
 ```
 
 Hyperion Bay should be used as the control because it tracks closely to Diablo before the plant became operational. There doesn't seem to be any detectable impacts on species A from any of the areas sampled. There were detecable impacts on species B with a distinct drop at Diablo and Hyperion and a steady decline with a few peaks at Noway Bay. For species C there seemed to be a positive impact at all of the sites, with the most stable increase at Diablo Cove. Overall, the plant had the biggest impact species B. 
+
+
+### 3. Fisheries and Invasive Species
+
+```{r include=F}
+
+fishery <- read_csv("fishery.csv")
+
+adult_recruit <- read_csv("recruit_adult.csv")
+
+
+```
+
+**Cancer Cancer**
+
+```{r echo=F}
+crabs <- adult_recruit %>%
+  filter(Species == "Cancer")
+  
+
+
+crabplot <- ggplot(crabs, aes(x = Year)) +
+  geom_line(aes(y = Adult, color = "Adult")) +
+  geom_line(aes(y = Recruitment, color = "Recruitment"))+
+  facet_wrap(~State)+
+  scale_y_continuous(sec.axis = sec_axis(~., name = "Recruitment")) +
+  theme_bw()+
+  labs(title = "Cancer Densities of Adults and Recruitments",
+       color = "Density") +
+  scale_color_manual(values = c("blue", "red"))
+
+
+crabplot
+
+```
+
+
+**Barnacles**
+
+```{r echo=F}
+
+barnacle <- adult_recruit %>%
+  filter(Species == "Barnacle")
+  
+
+
+barnacleplot <- ggplot(barnacle, aes(x = Year)) +
+  geom_line(aes(y = Adult, color = "Adult")) +
+  geom_line(aes(y = Recruitment, color = "Recruitment"))+
+  facet_wrap(~State)+
+  scale_y_continuous(sec.axis = sec_axis(~., name = "Recruitment")) +
+  theme_bw()+
+  labs(title = "Barnacle Densities of Adults and Recruitments",
+       color = "Density") +
+  scale_color_manual(values = c("green", "purple"))
+
+
+barnacleplot
+
+
+```
+
+**Recruitment and Upwelling**
+
+```{r}
+
+
+
+```
+
