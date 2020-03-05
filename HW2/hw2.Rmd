@@ -2,7 +2,9 @@
 title: "Homework 2"
 author: "Sidney Gerst"
 date: "February 9, 2020"
-output: html_document
+output:
+  word_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -96,7 +98,12 @@ damselfish_plot
 
 ####Spotted Damselfish
 
+<<<<<<< HEAD
 (H1): Adult Spotted Damselfish may have significantly decreased due to significantly decreasing Sea Anenomes (their preferred microhabitat during young recruitment). 
+=======
+(H2): Yellow Damselfish might also increase due to the decrease in Spotted Damselfish. They don't need to compete for resources with as many fish as they would if Spotted Damselfish remained at their 2009 values. 
+
+>>>>>>> b8913d723836bfc0a0c6580ed53187875ffec1df
 
 (H2): Adult Spotted Damselfish maybe have significantlly decreased due to the significantly increasing Yellow Damselfish. Even though their young recruit on different microhabitats, their adult stages may compete for similar resources. 
 

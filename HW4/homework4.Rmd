@@ -1,0 +1,158 @@
+---
+title: "Homework 4"
+author: "Sidney Gerst"
+date: "3/4/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+### 1. Climate Change 
+
+```{r include = F}
+
+climate_change <- read_csv("climate_change.csv")
+
+
+```
+
+**Development Mode**
+
+```{r echo = F}
+
+development_change <- ggplot(climate_change, aes(x = Species, y = density_change, fill = development)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~development, scales = "free_x") +
+  labs(title = "Development Mode and the Change in Density from 1955",
+       y = "Change in Density") +
+  theme_bw()+
+  theme(legend.position = "none") 
+
+development_change
+
+
+```
+
+The chart above does not show a pattern of change in species density depending on if the species has a planktonic larval stage or not. Using the metric developmental model is not as helpful as the other metrics for assessing if climate change has an affect on species density. 
+
+
+
+**Geographic Range**
+
+```{r echo = F}
+
+geographic <- ggplot(climate_change, aes(x = Species, y = density_change, fill = geographic_range))+
+  geom_bar(stat = "identity")+
+  facet_wrap(~geographic_range, scales = "free_x") +
+  theme_bw()+
+  labs(title = "Geographic Range and the Change in Density from 1955",
+       y = "Change in Density") +
+  theme(legend.position = "none")
+
+geographic
+
+
+
+```
+
+There is a pattern for each of the different geographic ranges. The Cosmopolitan species are split between positive and negative density change. The Northern species all had a negative change in density from the year 1955. The Southern species all had a positive change in density from the year 1955. This shows that climate change has a positive effect on Southern species and a negative effect on Northern species. 
+
+
+**Trophic Level**
+
+```{r echo=F}
+
+trophic <- ggplot(climate_change, aes(x = Species, y = density_change, fill = trophic_level))+
+  geom_bar(stat = "identity")+
+  facet_wrap(~trophic_level, scales = "free_x") +
+  theme_bw()+
+  labs(title = "Trophic Level and the Change in Density from 1955",
+       y = "Change in Density") +
+  theme(legend.position = "none")
+
+trophic
+
+
+
+```
+
+Scavengers had the most positive effect from climate change where five out of six species showed a positive change in density. 
+
+
+### 2. Nuclear Power
+
+```{r include = F}
+
+nuclear <- read_csv("nuclearpowerplant.csv")
+
+nuclearspecies <- read_csv("nuclear_species.csv")
+
+
+```
+
+
+**Species A**
+
+```{r echo=F}
+
+speciesa <- ggplot(nuclearspecies, aes(x = Year, y = A, fill = Plant)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~Plant) +
+  theme_bw() +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 38)) +
+  labs(title = "Density of Species A",
+       y = "Number of Individuals per 100m^2 ")
+  
+
+speciesa
+
+```
+
+ 
+
+**Species B**
+
+```{r echo=F}
+
+speciesb <- ggplot(nuclearspecies, aes(x = Year, y = B, fill = Plant)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~Plant) +
+  theme_bw() +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 40)) +
+  labs(title = "Density of Species B",
+       y = "Number of Individuals per 100m^2 ")
+  
+
+speciesb
+
+
+```
+
+
+
+**Species C**
+
+```{r echo=F}
+
+speciesc <- ggplot(nuclearspecies, aes(x = Year, y = C, fill = Plant)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~Plant) +
+  theme_bw() +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 40)) +
+  labs(title = "Density of Species C",
+       y = "Number of Individuals per 100m^2 ")
+  
+
+speciesc
+
+
+
+```
+
+Hyperion Bay should be used as the control because it tracks closely to Diablo before the plant became operational. There doesn't seem to be any detectable impacts on species A from any of the areas sampled. There were detecable impacts on species B with a distinct drop at Diablo and Hyperion and a steady decline with a few peaks at Noway Bay. For species C there seemed to be a positive impact at all of the sites, with the most stable increase at Diablo Cove. Overall, the plant had the biggest impact species B. 
