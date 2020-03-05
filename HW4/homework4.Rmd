@@ -162,7 +162,8 @@ Hyperion Bay should be used as the control because it tracks closely to Diablo b
 
 ```{r include=F}
 
-fishery <- read_csv("fishery.csv")
+fishery <- read_csv("fishery.csv") %>%
+  na.omit()
 
 adult_recruit <- read_csv("recruit_adult.csv")
 
@@ -173,7 +174,8 @@ adult_recruit <- read_csv("recruit_adult.csv")
 
 ```{r echo=F}
 crabs <- adult_recruit %>%
-  filter(Species == "Cancer")
+  filter(Species == "Cancer") %>%
+  na.omit()
   
 
 
@@ -198,7 +200,8 @@ crabplot
 ```{r echo=F}
 
 barnacle <- adult_recruit %>%
-  filter(Species == "Barnacle")
+  filter(Species == "Barnacle") %>%
+  na.omit()
   
 
 
@@ -210,7 +213,7 @@ barnacleplot <- ggplot(barnacle, aes(x = Year)) +
   theme_bw()+
   labs(title = "Barnacle Densities of Adults and Recruitments",
        color = "Density") +
-  scale_color_manual(values = c("green", "purple"))
+  scale_color_manual(values = c("darkgreen", "purple"))
 
 
 barnacleplot
@@ -218,10 +221,94 @@ barnacleplot
 
 ```
 
-**Recruitment and Upwelling**
+**Cancer Recruitment and California Upwelling**
 
-```{r}
+```{r echo=F}
+recruit_upwelling <- ggplot(fishery, aes(x = Recruit_Cancer_CA)) +
+  geom_line(aes(y = Upwelling_Winter_CA, color = "Upwelling Winter")) +
+  geom_line(aes(y = Upwelling_Summer_CA, color = "Upwelling Summer")) +
+  scale_y_continuous(sec.axis = sec_axis(~., name = "Summer")) +
+  scale_color_manual(values = c("darkturquoise", "goldenrod1"))+
+  labs(title = "Recruitment of Cancer Crabs During Upwelling in CA",
+       x = "Cancer Recruitment",
+       y = "Winter",
+       color = "Season")+
+  theme_bw()
+  
 
+
+recruit_upwelling
+
+
+```
+
+
+
+**Cancer Recruitment Oregon Upwelling**
+
+```{r echo=F}
+
+oregon_upwelling <- ggplot(fishery, aes(x = Recruit_Cancer_OR)) +
+  geom_line(aes(y = Upwelling_Winter_OR, color = "Upwelling Winter")) +
+  geom_line(aes(y = Upwelling_Summer_OR, color = "Upwelling Summer")) +
+  scale_y_continuous(sec.axis = sec_axis(~., name = "Upwelling Summer")) +
+  scale_color_manual(values = c("deeppink3", "lightseagreen"))+
+  labs(title = "Recruitment of Cancer Crabs During Upwelling in OR",
+       x = "Cancer Recruitment",
+       y = "Winter",
+       color = "Season")+
+  theme_bw()
+  
+
+
+oregon_upwelling
+
+
+```
+
+
+**Barnacle Recruitment California Upwelling**
+
+```{r echo=F}
+
+barn_ca_upwelling <- ggplot(fishery, aes(x = Recruit_Barnacle_CA)) +
+  geom_line(aes(y = Upwelling_Winter_CA, color = "Upwelling Winter")) +
+  geom_line(aes(y = Upwelling_Summer_CA, color = "Upwelling Summer")) +
+  scale_y_continuous(sec.axis = sec_axis(~., name = "Summer")) +
+  scale_color_manual(values = c("darkorange3", "cyan3"))+
+  labs(title = "Recruitment of Barnacle Bill During Upwelling in CA",
+       x = "Barnacle Recruitment",
+       y = "Winter",
+       color = "Season")+
+  theme_bw()
+  
+
+
+barn_ca_upwelling
+
+
+```
+
+
+
+**Barnacle Recruitment Oregon Upwelling**
+
+```{r echo=F}
+
+barn_or_upwelling <- ggplot(fishery, aes(x = Recruit_Barnacle_OR)) +
+  geom_line(aes(y = Upwelling_Winter_OR, color = "Upwelling Winter")) +
+  geom_line(aes(y = Upwelling_Summer_OR, color = "Upwelling Summer")) +
+  scale_y_continuous(sec.axis = sec_axis(~., name = "Summer")) +
+  scale_color_manual(values = c("slateblue1", "coral2"))+
+  labs(title = "Recruitment of Barnacle Bill During Upwelling in OR",
+       x = "Barnacle Recruitment",
+       y = "Winter",
+       color = "Season")+
+  theme_bw()
+  
+
+
+barn_or_upwelling
 
 
 ```
