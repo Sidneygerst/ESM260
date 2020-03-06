@@ -2,7 +2,11 @@
 title: "Homework 4"
 author: "Sidney Gerst"
 date: "3/4/2020"
-output: html_document
+output:
+  word_document: default
+  html_document: default
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -19,30 +23,10 @@ climate_change <- read_csv("climate_change.csv")
 
 ```
 
-**Development Mode**
-
-```{r echo = F}
-
-development_change <- ggplot(climate_change, aes(x = Species, y = density_change, fill = development)) +
-  geom_bar(stat = "identity") +
-  facet_wrap(~development, scales = "free_x") +
-  labs(title = "Development Mode and the Change in Density from 1955",
-       y = "Change in Density") +
-  theme_bw()+
-  theme(legend.position = "none") 
-
-development_change
-
-
-```
-
-The chart above does not show a pattern of change in species density depending on if the species has a planktonic larval stage or not. Using the metric developmental model is not as helpful as the other metrics for assessing if climate change has an affect on species density. 
-
-
 
 **Geographic Range**
 
-```{r echo = F}
+```{r echo = F, size=10}
 
 geographic <- ggplot(climate_change, aes(x = Species, y = density_change, fill = geographic_range))+
   geom_bar(stat = "identity")+
@@ -173,158 +157,34 @@ recruit_adult <- read_csv("adult_recruit.csv")
 ```
 
 
-```{r}
+```{r echo=F}
 
-cancer_adult_recruit_ca <- ggplot(recruit_adult, aes(x = Recruit_Cancer_CA, y = Adult_Cancer_CA)) +
-  geom_line()+
-  theme_bw()
-
-cancer_adult_recruit_ca
 
 c_recruitCA_adult_OR <- ggplot(recruit_adult, aes(x = Recruit_Cancer_CA, y = Adult_Cancer_OR))+
-  geom_line()+
-  theme_bw()
+  geom_point()+
+  theme_bw()+
+  labs(title = "Adult Cancer Crab in Oregon with Recruitment in California",
+       x = "California Cancer Recruitment",
+       y = "Oregon Cancer Adults")
 
 c_recruitCA_adult_OR
 
-c_recruitOR_adult_CA <- ggplot(recruit_adult, aes(x = Recruit_Cancer_OR, y = Adult_Cancer_CA))+
-  geom_line()+
-  theme_bw()
-c_recruitOR_adult_CA
-
-cancer_adult_recruit_or <- ggplot(recruit_adult, aes(x = Recruit_Cancer_OR, y = Adult_Cancer_OR)) +
-  geom_line()+
-  theme_bw()
-
-cancer_adult_recruit_or
-
-barnacle_adult_recruit_ca <- ggplot(recruit_adult, aes(x = Recruit_Barnacle_CA, y = Adult_Barnacle_CA)) +
-  geom_line()+
-  theme_bw()
-
-barnacle_adult_recruit_ca
-
-barnacle_adult_recruit_or <- ggplot(recruit_adult, aes(x = Recruit_Barnacle_OR, y = Adult_Barnacle_OR)) +
-  geom_line()+
-  theme_bw()
-
-barnacle_adult_recruit_or
-
-b_recruit_ca_adult_or <- ggplot(recruit_adult, aes(x = Recruit_Barnacle_CA, y = Adult_Barnacle_OR)) +
-  geom_line()+
-  theme_bw()
-
-b_recruit_ca_adult_or
-
-b_recruit_or_adult_ca <- ggplot(recruit_adult, aes(x = Recruit_Barnacle_OR, y = Adult_Barnacle_CA)) +
-  geom_line()+
-  theme_bw()
-
-b_recruit_or_adult_ca
-
-```
-
-
-```{r echo=F}
-crabs <- adult_recruit %>%
-  filter(Species == "Cancer") %>%
-  na.omit()
-  
-
-
-crabplot <- ggplot(crabs, aes(x = Year)) +
-  geom_line(aes(y = Adult, color = "Adult")) +
-  geom_line(aes(y = Recruitment, color = "Recruitment"))+
-  facet_wrap(~State)+
-  scale_y_continuous(sec.axis = sec_axis(~., name = "Recruitment")) +
-  theme_bw()+
-  labs(title = "Cancer Densities of Adults and Recruitments",
-       color = "Density") +
-  scale_color_manual(values = c("blue", "red"))
-
-
-crabplot
-
-```
-
-
-
-
-```{r echo=F}
-
-barnacle <- adult_recruit %>%
-  filter(Species == "Barnacle") %>%
-  na.omit()
-  
-
-
-barnacleplot <- ggplot(barnacle, aes(x = Year)) +
-  geom_line(aes(y = Adult, color = "Adult")) +
-  geom_line(aes(y = Recruitment, color = "Recruitment"))+
-  facet_wrap(~State)+
-  scale_y_continuous(sec.axis = sec_axis(~., name = "Recruitment")) +
-  theme_bw()+
-  labs(title = "Barnacle Densities of Adults and Recruitments",
-       color = "Density") +
-  scale_color_manual(values = c("darkgreen", "purple"))
-
-
-barnacleplot
 
 
 ```
 
 
-Recruitment for both Cancer Crabs and Barnacles tend to follow the adult density throughout years 2000-2019. Overall the species recruits have much lower densities than adutls. Cancer Crabs in California are the only recruits that are more dense than adults. 
-
-
-
-
-```{r echo=F}
-recruit_upwelling <- ggplot(fishery, aes(x = Recruit_Cancer_CA)) +
-  geom_line(aes(y = Upwelling_Winter_CA, color = "Upwelling Winter")) +
-  geom_line(aes(y = Upwelling_Summer_CA, color = "Upwelling Summer")) +
-  scale_y_continuous(sec.axis = sec_axis(~., name = "Summer")) +
-  scale_color_manual(values = c("darkturquoise", "goldenrod1"))+
-  labs(title = "Recruitment of Cancer Crabs During Upwelling in CA",
-       x = "Cancer Recruitment",
-       y = "Winter",
-       color = "Season")+
-  theme_bw()
-  
-
-
-recruit_upwelling
-
-
-```
+Cancer adults from Oregon affect the number of recruits in California because the current flows from north to south. When there are too many or too little adults, there is a small number of recruits. When there is median number of adults in Oregon, there is a high number of recruits in California. 
 
 
 
 
 
-```{r echo=F}
-
-oregon_upwelling <- ggplot(fishery, aes(x = Recruit_Cancer_OR)) +
-  geom_line(aes(y = Upwelling_Winter_OR, color = "Upwelling Winter")) +
-  geom_line(aes(y = Upwelling_Summer_OR, color = "Upwelling Summer")) +
-  scale_y_continuous(sec.axis = sec_axis(~., name = "Summer")) +
-  scale_color_manual(values = c("deeppink3", "lightseagreen"))+
-  labs(title = "Recruitment of Cancer Crabs During Upwelling in OR",
-       x = "Cancer Recruitment",
-       y = "Winter",
-       color = "Season")+
-  theme_bw()
-  
 
 
-oregon_upwelling
 
 
-```
 
-
-Recruitment of Cancer Crabs closely follow both Summer and Winter upwelling patterns. It doesn't seem to matter if there is upwelling at all if there will be recruitment in either Oregon or California.  
 
 
 
@@ -335,9 +195,10 @@ barn_ca_upwelling <- ggplot(fishery, aes(x = Recruit_Barnacle_CA)) +
   scale_color_manual(values = c("darkorange3", "cyan3"))+
   labs(title = "Recruitment of Barnacle Bill During Winter Upwelling in CA",
        x = "Barnacle Recruitment",
-       y = "Winter",
+       y = "Winter Upwelling",
        color = "Season")+
-  theme_bw()
+  theme_bw()+
+   theme(legend.position = "none")
   
 
 
@@ -348,71 +209,7 @@ barn_ca_upwelling
 
 
 
-```{r}
-barn_winter_ca <- ggplot(fishery, aes(x = Year)) +
-  geom_line(aes(y = Upwelling_Winter_CA, color = "Upwelling Winter")) +
-  geom_line(aes(y = Recruit_Barnacle_CA, color = "Recruitment")) +
-  scale_y_continuous(sec.axis = sec_axis(~., name = "Recruitment")) +
-  scale_color_manual(values = c("darkorange3", "cyan3"))+
-  labs(title = "Recruitment of Barnacle Bill During Witner Upwelling in CA",
-       x = "Year",
-       y = "Winter",
-       color = "Season")+
-  theme_bw()
-  
+Recruitment of Barnacles in California depends heavily on Winter upwelling. As there is more upwelling during the winter in California, there is higher recruitment of Barnacles. 
 
 
-barn_winter_ca
-
-
-```
-
-
-
-
-
-```{r echo=F}
-
-barn_or_upwelling <- ggplot(fishery, aes(x = Recruit_Barnacle_OR)) +
-  geom_line(aes(y = Upwelling_Winter_OR, color = "Upwelling Winter")) +
-  geom_line(aes(y = Upwelling_Summer_OR, color = "Upwelling Summer")) +
-  scale_y_continuous(sec.axis = sec_axis(~., name = "Summer")) +
-  scale_color_manual(values = c("slateblue1", "coral2"))+
-  labs(title = "Recruitment of Barnacle Bill During Upwelling in OR",
-       x = "Barnacle Recruitment",
-       y = "Winter",
-       color = "Season")+
-  theme_bw()
-  
-
-
-barn_or_upwelling
-
-
-```
-
-
-Recruitment of Barnacles in California depends heavily on Winter upwelling. As there is more upwelling during the winter in California, there is higher recruitment of Barnacles. In Oregon, recruitment of Barnacles doesn't really depend on upwelling for summer or winter. 
-
-
-```{r}
-
-barn_winter_upwelling <- ggplot(fishery, aes(x = Year)) +
-  geom_line(aes(y = Upwelling_Winter_OR, color = "Upwelling Winter")) +
-  geom_line(aes(y = Recruit_Barnacle_OR, color = "Recruitment")) +
-  scale_y_continuous(sec.axis = sec_axis(~., name = "Recruitment")) +
-  scale_color_manual(values = c("slateblue1", "coral2"))+
-  labs(title = "Recruitment of Barnacle Bill During Winter Upwelling in OR",
-       x = "Year",
-       y = "Winter",
-       color = "Season")+
-  theme_bw()
-  
-
-
-barn_winter_upwelling
-
-
-
-```
 
