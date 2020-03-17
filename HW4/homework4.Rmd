@@ -45,6 +45,27 @@ geographic
 There is a pattern for each of the different geographic ranges. The Cosmopolitan species are split between positive and negative density change. The Northern species all had a negative change in density from the year 1955. The Southern species all had a positive change in density from the year 1955. This shows that climate change has a positive effect on Southern species and a negative effect on Northern species. 
 
 
+larval stage
+
+```{r size = 15}
+
+larval <- ggplot(climate_change, aes(x = Species, y = density_change, fill = trophic_level))+
+  geom_bar(stat = "identity")+
+  facet_wrap(~geographic_range, scales = "free_x") +
+  theme_bw()+
+  labs(title = "Geographic Range and the Change in Density from 1955",
+       y = "Change in Density") 
+  #theme(legend.position = "none")
+
+larval
+
+development_change
+
+
+```
+
+
+
 **Trophic Level**
 
 ```{r echo=F}
@@ -163,7 +184,7 @@ recruit_adult <- read_csv("adult_recruit.csv")
 c_recruitCA_adult_OR <- ggplot(recruit_adult, aes(x = Recruit_Cancer_CA, y = Adult_Cancer_OR))+
   geom_point()+
   theme_bw()+
-  labs(title = "Adult Cancer Crab in Oregon with Recruitment in California",
+  labs(#title = "Adult Cancer Crab in Oregon with Recruitment in California",
        x = "California Cancer Recruitment",
        y = "Oregon Cancer Adults")
 
